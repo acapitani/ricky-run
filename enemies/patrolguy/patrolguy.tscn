@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://enemies/patrolguy/patrolguy.gd" type="Script" id=1]
+[ext_resource path="res://enemies/patrolguy/patrolguy.png" type="Texture" id=2]
+[ext_resource path="res://enemies/patrolguy/states/patrolguy_run.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6, 6 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "run"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("rotate/patrolguy:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[node name="patrolguy" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="front" type="RayCast2D" parent="."]
+position = Vector2( -6, 0 )
+enabled = true
+cast_to = Vector2( -2, 0 )
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+shape = SubResource( 1 )
+
+[node name="rotate" type="Node2D" parent="."]
+
+[node name="patrolguy" type="Sprite" parent="rotate"]
+texture = ExtResource( 2 )
+vframes = 2
+hframes = 4
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "run"
+anims/run = SubResource( 2 )
+
+[node name="states" type="Node" parent="."]
+
+[node name="patrolguy_run" type="Node" parent="states"]
+script = ExtResource( 3 )
+
